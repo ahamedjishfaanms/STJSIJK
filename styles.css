@@ -17,17 +17,74 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 20px;
+  padding: 8px 20px;
   color: white;
+  font-size: 0.9rem;
 }
 
-.contact-info, .social-icons {
+.contact-info {
   display: flex;
   align-items: center;
+  gap: 20px;
 }
 
-.contact-info i, .social-icons a {
-  margin-right: 10px;
+.contact-info a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.contact-info a:hover {
+  transform: translateY(-2px);
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.social-icons a {
+  color: white;
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+}
+
+/* Mobile View - Hide text and adjust layout */
+@media (max-width: 768px) {
+  .contact-info {
+    gap: 15px;
+  }
+  
+  .contact-text {
+    display: none;
+  }
+  
+  .contact-info a {
+    font-size: 1.1rem;
+  }
+  
+  .social-icons a {
+    font-size: 1.1rem;
+  }
+}
+
+/* Very small screens - adjust spacing */
+@media (max-width: 480px) {
+  .top-section {
+    padding: 8px 15px;
+  }
+  
+  .contact-info, .social-icons {
+    gap: 12px;
+  }
 }
 
 /* Navbar Styles */
