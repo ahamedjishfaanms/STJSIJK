@@ -7,192 +7,122 @@
     <!-- Favicon -->
     <link rel="icon" href="image/Favicon/favicon.ico" type="image/x-icon">
     <!-- Font Awesome Library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <img src="Image/logo.svg" alt="Loading...">
+            <div class="loading-text">Loading Faculties...</div>
+        </div>
+    </div>
 
-<!-- Navbar -->
+    <!-- In team.html -->
 <nav class="navbar">
     <div class="logo">
-        <img src="Image/logo.svg" alt="Logo">
+        <img src="Image/NEW LOGO.png" alt="Logo">
     </div>
-    <div class="menu-toggle" id="mobile-menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-    </div>
-    <div class="menu-close" id="mobile-close">
-        <span>&times;</span>
-    </div>
-    <ul class="nav-list" id="nav-list">
+    <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="faculties.html">Faculties</a></li>
-        <li class="dropdown">
+        <li class="about">
+            <a href="#">About</a>
+            <ul class="sub-menu">
+                <li><a href="department.html">Department</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="clubs.html">Clubs</a></li>
+            </ul>
+        </li>
+        <li class="activities">
             <a href="#">Activities</a>
-            <ul class="dropdown-content">
+            <ul class="sub-menu">
                 <li><a href="events.html">Events</a></li>
                 <li><a href="placement.html">Placement</a></li>
             </ul>
         </li>
         <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="https://stjosephs.linways.com/">Login</a></li>
+        <li><a href="https://stjosephs.linways.com/" class="login">Login</a></li>
     </ul>
+    <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </div>
 </nav>
 
-<!-- Faculties Section -->
-<section class="faculties-section">
-    <div class="container">
-        <h1>Our Faculties</h1>
-        <div class="faculties-grid">
-            <!-- Faculty Member 1 -->
-            <div class="faculty-card">
-                <img src="Image/download.jpg" alt="Faculty Name">
-                <div class="faculty-info">
-                    <h2>Dr. Jane Doe</h2>
-                    <p>Professor, Department of Computer Science</p>
-                    <div class="faculty-social">
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="mailto:jane.doe@example.com"><i class="fas fa-envelope"></i></a>
-                        <a href="https://wa.me/1234567890"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                    <button class="profile-btn">View Profile</button>
-                </div>
+    <!-- Faculties Section -->
+    <section class="faculties-section">
+        <div class="container">
+            <div class="section-header">
+                <h1 class="section-title">Our Faculties</h1>
+                <p class="section-subtitle">Meet our dedicated team of educators and researchers</p>
             </div>
+            
+            <!-- Department Filter -->
+            <div class="department-filter">
+                <button class="filter-btn active" data-department="all">All Departments</button>
+                <button class="filter-btn" data-department="computer-science">Computer Science</button>
+                <button class="filter-btn" data-department="mathematics">Mathematics</button>
+                <button class="filter-btn" data-department="physics">Physics</button>
+                <button class="filter-btn" data-department="chemistry">Chemistry</button>
+            </div>
+            
+            <!-- Search Box -->
+            <div class="search-box">
+                <input type="text" id="faculty-search" placeholder="Search faculty by name...">
+                <i class="fas fa-search"></i>
+            </div>
+            
+            <div class="faculties-grid" id="faculties-container">
+                <!-- Faculty cards will be dynamically inserted here -->
+            </div>
+            
+            <!-- Loading More Indicator -->
+            <div class="load-more" id="load-more">
+                <button id="load-more-btn">Load More</button>
+            </div>
+        </div>
+    </section>
 
-            <!-- Faculty Member 2 -->
-            <div class="faculty-card">
-                <img src="Image/download.jpg" alt="Faculty Name">
-                <div class="faculty-info">
-                    <h2>Dr. John Smith</h2>
-                    <p>Associate Professor, Department of Mathematics</p>
-                    <div class="faculty-social">
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="mailto:john.smith@example.com"><i class="fas fa-envelope"></i></a>
-                        <a href="https://wa.me/0987654321"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                    <button class="profile-btn">View Profile</button>
-                </div>
+    <!-- Faculty Modal -->
+    <div class="faculty-modal" id="faculty-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <!-- Modal content will be dynamically inserted here -->
             </div>
-
-            <!-- Additional Faculty Members can be added similarly -->
-              <!-- Faculty Member 3 -->
-            <div class="faculty-card">
-                <img src="Image/download.jpg" alt="Faculty Name">
-                <div class="faculty-info">
-                    <h2>Dr. John Smith</h2>
-                    <p>Associate Professor, Department of Mathematics</p>
-                    <div class="faculty-social">
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="mailto:john.smith@example.com"><i class="fas fa-envelope"></i></a>
-                        <a href="https://wa.me/0987654321"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                    <button class="profile-btn">View Profile</button>
-                </div>
-            </div>
-
-             <!-- Faculty Member 4 -->
-             <div class="faculty-card">
-                <img src="Image/download.jpg" alt="Faculty Name">
-                <div class="faculty-info">
-                    <h2>Dr. John Smith</h2>
-                    <p>Associate Professor, Department of Mathematics</p>
-                    <div class="faculty-social">
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="mailto:john.smith@example.com"><i class="fas fa-envelope"></i></a>
-                        <a href="https://wa.me/0987654321"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                    <button class="profile-btn">View Profile</button>
-                </div>
-            </div>
-
-             <!-- Faculty Member 5 -->
-             <div class="faculty-card">
-                <img src="Image/download.jpg" alt="Faculty Name">
-                <div class="faculty-info">
-                    <h2>Dr. John Smith</h2>
-                    <p>Associate Professor, Department of Mathematics</p>
-                    <div class="faculty-social">
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="mailto:john.smith@example.com"><i class="fas fa-envelope"></i></a>
-                        <a href="https://wa.me/0987654321"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                    <button class="profile-btn">View Profile</button>
-                </div>
-            </div>
-             <!-- Faculty Member 6 -->
-             <div class="faculty-card">
-                <img src="Image/download.jpg" alt="Faculty Name">
-                <div class="faculty-info">
-                    <h2>Dr. John Smith</h2>
-                    <p>Associate Professor, Department of Mathematics</p>
-                    <div class="faculty-social">
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="mailto:john.smith@example.com"><i class="fas fa-envelope"></i></a>
-                        <a href="https://wa.me/0987654321"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                    <button class="profile-btn">View Profile</button>
-                </div>
-            </div>
-
-             <!-- Faculty Member 7 -->
-             <div class="faculty-card">
-                <img src="Image/download.jpg" alt="Faculty Name">
-                <div class="faculty-info">
-                    <h2>Dr. John Smith</h2>
-                    <p>Associate Professor, Department of Mathematics</p>
-                    <div class="faculty-social">
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="mailto:john.smith@example.com"><i class="fas fa-envelope"></i></a>
-                        <a href="https://wa.me/0987654321"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                    <button class="profile-btn">View Profile</button>
-                </div>
-            </div>
-             <!-- Faculty Member 8 -->
-             <div class="faculty-card">
-                <img src="Image/download.jpg" alt="Faculty Name">
-                <div class="faculty-info">
-                    <h2>Dr. John Smith</h2>
-                    <p>Associate Professor, Department of Mathematics</p>
-                    <div class="faculty-social">
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="mailto:john.smith@example.com"><i class="fas fa-envelope"></i></a>
-                        <a href="https://wa.me/0987654321"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                    <button class="profile-btn">View Profile</button>
-                </div>
-            </div>
-
         </div>
     </div>
-</section>
 
-<!-- Footer Section -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <a href="index.html"><img src="Image/logo.svg" alt="Footer Logo"></a>
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="index.html"><img src="Image/logo.svg" alt="Footer Logo"></a>
+                </div>
+                <div class="footer-social">
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="footer-social">
-                <ul>
-                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                </ul>
+            <div class="footer-bottom">
+                <p>&copy; 2024 St. Joseph's College (Autonomous), Irinjalakuda. All Rights Reserved.</p>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 St. Joseph's College (Autonomous), Irinjalakuda. All Rights Reserved.</p>
-        </div>
-    </div>
-</footer>
+    </footer>
 
-<!-- External JavaScript -->
-<script src="script.js"></script>
+    <!-- External JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script src="faculty.js"></script>
 </body>
 </html>
