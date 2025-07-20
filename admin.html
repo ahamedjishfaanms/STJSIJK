@@ -127,52 +127,47 @@
             background-color: #E17564;
         }
 
-        .admin-main {
+        /* Modern Top Navigation */
+        .top-nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
             display: flex;
-            height: calc(100vh - 60px);
+            overflow-x: auto;
+            gap: 10px;
         }
 
-        .sidebar {
-            width: 250px;
-            background-color: #fff;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            padding: 20px 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar-menu {
-            flex-grow: 1;
-        }
-
-        .menu-item {
-            padding: 12px 20px;
+        .nav-item {
+            padding: 10px 20px;
+            border-radius: 30px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: background-color 0.3s;
+            white-space: nowrap;
+            transition: all 0.3s;
+            background-color: #f5f5f5;
+            color: #333;
         }
 
-        .menu-item:hover {
-            background-color: #f0f0f0;
-        }
-
-        .menu-item.active {
+        .nav-item:hover {
             background-color: #e0e0e0;
-            border-left: 4px solid #BE3144;
         }
 
-        .menu-item i {
-            width: 20px;
-            text-align: center;
+        .nav-item.active {
+            background-color: #BE3144;
+            color: white;
+        }
+
+        .nav-item i {
+            font-size: 0.9rem;
         }
 
         .admin-content {
-            flex-grow: 1;
             padding: 20px;
             overflow-y: auto;
             background-color: #f9f9f9;
+            min-height: calc(100vh - 120px);
         }
 
         .content-section {
@@ -198,8 +193,7 @@
 
         iframe {
             width: 100%;
-            height: 100%;
-            min-height: 500px;
+            height: calc(100vh - 180px);
             border: none;
             background-color: white;
             border-radius: 8px;
@@ -411,35 +405,17 @@
                 font-size: 0.8rem;
             }
 
-            .admin-main {
-                flex-direction: column;
-                height: auto;
-            }
-
-            .sidebar {
-                width: 100%;
-                flex-direction: row;
-                overflow-x: auto;
-                padding: 10px 0;
-            }
-
-            .sidebar-menu {
-                display: flex;
-                flex-grow: 1;
-            }
-
-            .menu-item {
-                padding: 10px 15px;
-                white-space: nowrap;
-            }
-
-            .menu-item.active {
-                border-left: none;
-                border-bottom: 4px solid #BE3144;
-            }
-
             .stats-container {
                 grid-template-columns: 1fr 1fr;
+            }
+            
+            .top-nav {
+                padding: 10px;
+            }
+            
+            .nav-item {
+                padding: 8px 15px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -471,143 +447,107 @@
             <button class="logout-btn" id="logoutBtn">Logout</button>
         </div>
         
-        <div class="admin-main">
-            <div class="sidebar">
-                <div class="sidebar-menu">
-                    <div class="menu-item active" data-section="dashboard">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
+        <!-- Modern Top Navigation -->
+        <div class="top-nav">
+            <div class="nav-item active" data-section="home-data">
+                <i class="fas fa-home"></i>
+                <span>Home Page Data</span>
+            </div>
+            <div class="nav-item" data-section="faculty-edit">
+                <i class="fas fa-user-edit"></i>
+                <span>Edit Faculty</span>
+            </div>
+            <div class="nav-item" data-section="image-tool">
+                <i class="fas fa-image"></i>
+                <span>Image Link Generator</span>
+            </div>
+            <div class="nav-item" data-section="profile">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
+        </div>
+        
+        <div class="admin-content">
+            <!-- Home Page Data Section -->
+            <div class="content-section active" id="home-data-section">
+                <h2 class="section-title">Home Page Data</h2>
+                <iframe src="https://script.google.com/macros/s/AKfycbxrhXiDJI082ZzsZDsUMgOiLZkVOg6-NOYJsxu4I326ruYly1Ya_TF4gr1bcjEjD_jDeA/exec"></iframe>
+            </div>
+            
+            <!-- Faculty Edit Section -->
+            <div class="content-section" id="faculty-edit-section">
+                <h2 class="section-title">Edit Faculty</h2>
+                <iframe src="https://script.google.com/macros/s/AKfycbxhcssm8c4nEME8hNvx0xf_Uu_c8UvB8Eg3zchjPpBf37lhzt3I70o_skRBr5N40DOk3Q/exec"></iframe>
+            </div>
+            
+            <!-- Image Tool Section -->
+            <div class="content-section" id="image-tool-section">
+                <h2 class="section-title">Image Link Generator Tool</h2>
+                
+                <div class="upload-container">
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop your image here or click to browse</p>
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                        <button class="upload-btn" id="uploadBtn">Select Image</button>
                     </div>
-                    <div class="menu-item" data-section="department-data">
-                        <i class="fas fa-database"></i>
-                        <span>Department Data</span>
-                    </div>
-                    <div class="menu-item" data-section="image-tool">
-                        <i class="fas fa-image"></i>
-                        <span>Image Link Generator</span>
-                    </div>
-                    <div class="menu-item" data-section="profile">
-                        <i class="fas fa-user"></i>
-                        <span>Profile</span>
+                    
+                    <div class="preview-container" id="previewContainer">
+                        <img src="" alt="Preview" class="image-preview" id="imagePreview">
+                        
+                        <div>
+                            <label>Image URL:</label>
+                            <div class="link-container">
+                                <input type="text" class="link-input" id="imageUrl" readonly>
+                                <button class="copy-btn" id="copyBtn">Copy</button>
+                            </div>
+                        </div>
+                        
+                        <div class="success-message" id="successMessage">
+                            <i class="fas fa-check-circle"></i> Image uploaded successfully!
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="admin-content">
-                <!-- Dashboard Section -->
-                <div class="content-section active" id="dashboard-section">
-                    <h2 class="section-title">Dashboard Overview</h2>
-                    
-                    <div class="stats-container">
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background-color: #FFEBEE; color: #BE3144;">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="stat-value">1,245</div>
-                            <div class="stat-label">Total Visitors</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background-color: #E8F5E9; color: #4CAF50;">
-                                <i class="fas fa-file-alt"></i>
-                            </div>
-                            <div class="stat-value">56</div>
-                            <div class="stat-label">Total Documents</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background-color: #E3F2FD; color: #2196F3;">
-                                <i class="fas fa-calendar-alt"></i>
-                            </div>
-                            <div class="stat-value">12</div>
-                            <div class="stat-label">Upcoming Events</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background-color: #FFF3E0; color: #FF9800;">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="stat-value">24</div>
-                            <div class="stat-label">New Messages</div>
+            <!-- Profile Section -->
+            <div class="content-section" id="profile-section">
+                <h2 class="section-title">Admin Profile</h2>
+                
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-avatar">A</div>
+                        <div class="profile-info">
+                            <h2>Admin User</h2>
+                            <p>Department Administrator</p>
                         </div>
                     </div>
                     
-                    <div class="section-title">Recent Activity</div>
-                    <p style="color: #666; text-align: center;">Activity logs will appear here</p>
-                </div>
-                
-                <!-- Department Data Section -->
-                <div class="content-section" id="department-data-section">
-                    <h2 class="section-title">Department Data</h2>
-                    <iframe src="https://script.google.com/macros/s/AKfycbwWtgTUkxWF2-_mH8kfdoYWL0lZJ_UE30ewUERSyXSl3ElyfGtJhUbyyGzsQPJdAGRkKw/exec"></iframe>
-                </div>
-                
-                <!-- Image Tool Section -->
-                <div class="content-section" id="image-tool-section">
-                    <h2 class="section-title">Image Link Generator Tool</h2>
-                    
-                    <div class="upload-container">
-                        <div class="upload-area" id="uploadArea">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>Drag & drop your image here or click to browse</p>
-                            <input type="file" id="fileInput" accept="image/*" style="display: none;">
-                            <button class="upload-btn" id="uploadBtn">Select Image</button>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <div class="profile-stat-value">245</div>
+                            <div class="profile-stat-label">Logins</div>
                         </div>
-                        
-                        <div class="preview-container" id="previewContainer">
-                            <img src="" alt="Preview" class="image-preview" id="imagePreview">
-                            
-                            <div>
-                                <label>Image URL:</label>
-                                <div class="link-container">
-                                    <input type="text" class="link-input" id="imageUrl" readonly>
-                                    <button class="copy-btn" id="copyBtn">Copy</button>
-                                </div>
-                            </div>
-                            
-                            <div class="success-message" id="successMessage">
-                                <i class="fas fa-check-circle"></i> Image uploaded successfully!
-                            </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-value">12</div>
+                            <div class="profile-stat-label">Tasks</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-value">3.8</div>
+                            <div class="profile-stat-label">Rating</div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Profile Section -->
-                <div class="content-section" id="profile-section">
-                    <h2 class="section-title">Admin Profile</h2>
                     
-                    <div class="profile-container">
-                        <div class="profile-header">
-                            <div class="profile-avatar">A</div>
-                            <div class="profile-info">
-                                <h2>Admin User</h2>
-                                <p>Department Administrator</p>
-                            </div>
-                        </div>
-                        
-                        <div class="profile-stats">
-                            <div class="profile-stat">
-                                <div class="profile-stat-value">245</div>
-                                <div class="profile-stat-label">Logins</div>
-                            </div>
-                            <div class="profile-stat">
-                                <div class="profile-stat-value">12</div>
-                                <div class="profile-stat-label">Tasks</div>
-                            </div>
-                            <div class="profile-stat">
-                                <div class="profile-stat-value">3.8</div>
-                                <div class="profile-stat-label">Rating</div>
-                            </div>
-                        </div>
-                        
-                        <div class="section-title">Account Information</div>
-                        <div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                            <p><strong>Username:</strong> admin</p>
-                            <p><strong>Email:</strong> admin@department.edu</p>
-                            <p><strong>Last Login:</strong> Today at 10:30 AM</p>
-                        </div>
-                        
-                        <button class="logout-btn" style="width: 100%;">
-                            <i class="fas fa-sign-out-alt"></i> Change Password
-                        </button>
+                    <div class="section-title">Account Information</div>
+                    <div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <p><strong>Username:</strong> admin</p>
+                        <p><strong>Email:</strong> admin@department.edu</p>
+                        <p><strong>Last Login:</strong> Today at 10:30 AM</p>
                     </div>
+                    
+                    <button class="logout-btn" style="width: 100%;">
+                        <i class="fas fa-sign-out-alt"></i> Change Password
+                    </button>
                 </div>
             </div>
         </div>
@@ -653,17 +593,17 @@
             }
         });
 
-        // Menu navigation
-        const menuItems = document.querySelectorAll('.menu-item');
+        // Modern Top Navigation
+        const navItems = document.querySelectorAll('.nav-item');
         const contentSections = document.querySelectorAll('.content-section');
 
-        menuItems.forEach(item => {
+        navItems.forEach(item => {
             item.addEventListener('click', function() {
-                // Remove active class from all menu items and sections
-                menuItems.forEach(i => i.classList.remove('active'));
+                // Remove active class from all nav items and sections
+                navItems.forEach(i => i.classList.remove('active'));
                 contentSections.forEach(section => section.classList.remove('active'));
                 
-                // Add active class to clicked menu item
+                // Add active class to clicked nav item
                 this.classList.add('active');
                 
                 // Show corresponding section
