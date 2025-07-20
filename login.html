@@ -3,818 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spreadsheet with Image Upload</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Login Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Spreadsheet specific styles */
-        .spreadsheet-container {
-            width: 100%;
-            overflow: auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 5px;
-            margin: 20px 0;
-            background: white;
-        }
-        
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            table-layout: fixed;
-        }
-        
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-            vertical-align: top;
-            min-width: 120px;
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        th {
-            background-color: #09122C;
-            color: white;
-            position: sticky;
-            top: 0;
-            font-weight: bold;
-            text-align: center;
-        }
-        
-        .column-header {
-            background-color: #09122C;
-            position: sticky;
-            top: 0;
-            z-index: 3;
-            text-align: center;
-            font-weight: bold;
-        }
-        
-        .column-letter {
-            font-size: 0.8em;
-            opacity: 0.8;
-            margin-bottom: 4px;
-        }
-        
-        .row-header {
-            background-color: #f2f2f2;
-            position: sticky;
-            left: 0;
-            z-index: 2;
-            text-align: center;
-            font-weight: bold;
-            min-width: 40px;
-            max-width: 40px;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        
-        .slide-image, .blog-thumbnail {
-            width: 100%;
-            height: 80px;
-            background-color: #eee;
+        /* Additional styles specific to this page */
+        .login-portal {
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
-            margin-bottom: 8px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 4px;
-        }
-        
-        .blog-thumbnail {
-            background-color: #eef;
-        }
-        
-        .sheet-button {
-            padding: 6px 12px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s;
-        }
-        
-        .sheet-button:hover {
-            background-color: #45a049;
-        }
-        
-        .editable {
-            min-height: 24px;
-            padding: 8px;
-            outline: none;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            transition: all 0.3s;
-            width: calc(100% - 16px);
-            font-family: 'Poppins', sans-serif;
-            white-space: nowrap;
+            background-color: #f8f9fa;
+            position: relative;
             overflow: hidden;
-            text-overflow: ellipsis;
+            isolation: isolate;
         }
         
-        .editable:focus {
-            background-color: #ffffcc;
-            border: 1px solid #ddd;
-            white-space: normal;
-            overflow: visible;
+        .login-container {
+            background-color: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
         }
         
-        .image-controls {
+        /* Standard logo size */
+        .login-logo {
+            width: 180px;  /* Standard width */
+            height: auto;  /* Maintain aspect ratio */
+            margin: 0 auto 30px;
+            display: block;
+        }
+        
+        .login-title {
+            font-size: 2.5rem;
+            color: #09122C;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .login-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #BE3144;
+            border-radius: 2px;
+        }
+        
+        .login-buttons {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 20px;
+            margin-top: 40px;
         }
         
-        .image-url-input {
-            width: 100%;
-            padding: 8px;
-            font-size: 13px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .upload-btn {
-            background-color: #2196F3;
-            font-size: 13px;
-            padding: 6px 10px;
-            font-family: 'Poppins', sans-serif;
-            width: 100%;
-        }
-        
-        .upload-btn:hover {
-            background-color: #0b7dda;
-        }
-        
-        #fileInput {
-            display: none;
-        }
-        
-        .save-btn {
-            margin: 25px 0;
-            padding: 12px 24px;
-            background-color: #BE3144;
-            font-size: 16px;
-            font-family: 'Poppins', sans-serif;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .save-btn:hover {
-            background-color: #E17564;
-        }
-        
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
+        .login-btn {
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
             display: flex;
-            justify-content: center;
             align-items: center;
-            z-index: 1000;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .linways-btn {
+            background-color: #09122C;
             color: white;
-            font-size: 20px;
+            border: 2px solid #09122C;
         }
         
-        .main-content {
-            padding: 20px;
-            max-width: 100%;
-            margin: 0 auto;
-            overflow: auto;
-        }
-        
-        .page-title {
+        .admin-btn {
+            background-color: white;
             color: #09122C;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-align: center;
+            border: 2px solid #09122C;
         }
         
-        .status-message {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 4px;
-            display: none;
+        .linways-btn:hover {
+            background-color: #BE3144;
+            border-color: #BE3144;
+            transform: translateY(-3px);
         }
         
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+        .admin-btn:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-3px);
         }
         
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+        /* Background shapes */
+        .login-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(190, 49, 68, 0.1);
+            z-index: 1;
         }
         
-        @media (max-width: 1200px) {
-            table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-            
-            th, td {
-                min-width: 150px;
-            }
+        .login-shape-1 {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, rgba(190, 49, 68, 0.15) 0%, transparent 70%);
+        }
+        
+        .login-shape-2 {
+            width: 400px;
+            height: 400px;
+            bottom: -150px;
+            right: -150px;
+            background: radial-gradient(circle, rgba(190, 49, 68, 0.1) 0%, transparent 70%);
+        }
+        
+        .login-shape-3 {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            right: 10%;
+            background: radial-gradient(circle, rgba(190, 49, 68, 0.1) 0%, transparent 70%);
         }
         
         @media (max-width: 768px) {
-            .page-title {
-                font-size: 1.5rem;
+            .login-container {
+                padding: 30px 20px;
             }
             
-            th, td {
-                padding: 6px;
-                font-size: 14px;
+            .login-title {
+                font-size: 2rem;
             }
             
-            .slide-image, .blog-thumbnail {
-                height: 60px;
+            /* Slightly smaller logo on mobile */
+            .login-logo {
+                width: 150px;
             }
-            
-            .column-letter {
-                font-size: 0.7em;
+        }
+        
+        @media (max-width: 480px) {
+            /* Even smaller logo on very small screens */
+            .login-logo {
+                width: 130px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Top Section -->
-    <div class="top-section">
-        <div class="contact-info">
-            <i class="fas fa-envelope"></i> info@example.com &nbsp;
-            <i class="fas fa-phone"></i> +123 456 7890
-        </div>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <img src="https://via.placeholder.com/100" alt="Loading...">
+            <div class="loading-text">Loading...</div>
         </div>
     </div>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">
-            <img src="Image/NEW LOGO.png" alt="Logo">
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li class="activities">
-                <a href="#">Activities</a>
-                <ul class="sub-menu">
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">Placement</a></li>
-                </ul>
-            </li>
-            <li><a href="#">Gallery</a></li>
-            <li><a href="#" class="login">Login</a></li>
-        </ul>
-        <div class="hamburger">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
-    </nav>
-
-    <input type="file" id="fileInput" accept="image/*">
-    <div id="loading" class="loading" style="display: none;">Uploading image...</div>
-    
-    <div class="main-content">
-        <h1 class="page-title">Content Management System</h1>
+    <!-- Login Portal Section -->
+    <section class="login-portal">
+        <div class="login-shape login-shape-1"></div>
+        <div class="login-shape login-shape-2"></div>
+        <div class="login-shape login-shape-3"></div>
         
-        <div class="spreadsheet-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="row-header"></th>
-                        <th class="column-header">
-                            <div class="column-letter">A</div>
-                            <div class="column-title">SLIDE IMAGE</div>
-                        </th>
-                        <th class="column-header">
-                            <div class="column-letter">B</div>
-                            <div class="column-title">LATEST NEWS</div>
-                        </th>
-                        <th class="column-header">
-                            <div class="column-letter">C</div>
-                            <div class="column-title">NEWS LINK</div>
-                        </th>
-                        <th class="column-header">
-                            <div class="column-letter">D</div>
-                            <div class="column-title">BLOG THUMBNAIL</div>
-                        </th>
-                        <th class="column-header">
-                            <div class="column-letter">E</div>
-                            <div class="column-title">BLOG HEADING</div>
-                        </th>
-                        <th class="column-header">
-                            <div class="column-letter">F</div>
-                            <div class="column-title">BLOG DESCRIPTION</div>
-                        </th>
-                        <th class="column-header">
-                            <div class="column-letter">G</div>
-                            <div class="column-title">BUTTON NAME</div>
-                        </th>
-                        <th class="column-header">
-                            <div class="column-letter">H</div>
-                            <div class="column-title">BUTTON LINK</div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Header Row (non-editable) -->
-                    <tr>
-                        <td class="row-header">1</td>
-                        <td><div>SLIDE IMAGE</div></td>
-                        <td><div>LATEST NEWS</div></td>
-                        <td><div>NEWS LINK</div></td>
-                        <td><div>BLOG THUMBNAIL</div></td>
-                        <td><div>BLOG HEADING</div></td>
-                        <td><div>BLOG DESCRIPTION</div></td>
-                        <td><div>BUTTON NAME</div></td>
-                        <td><div>BUTTON LINK</div></td>
-                    </tr>
-                    
-                    <!-- Row 2 -->
-                    <tr>
-                        <td class="row-header">2</td>
-                        <td>
-                            <div class="slide-image">Image 1</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Breaking: New product launch</div></td>
-                        <td><div class="editable" contenteditable="true">/news/product-launch</div></td>
-                        <td>
-                            <div class="blog-thumbnail">Thumb 1</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">How to use our new product</div></td>
-                        <td><div class="editable" contenteditable="true">A comprehensive guide to getting started with our latest offering.</div></td>
-                        <td><div class="editable" contenteditable="true">Read More</div></td>
-                        <td><div class="editable" contenteditable="true">/blog/product-guide</div></td>
-                    </tr>
-                    
-                    <!-- Row 3 -->
-                    <tr>
-                        <td class="row-header">3</td>
-                        <td>
-                            <div class="slide-image">Image 2</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Company reaches milestone</div></td>
-                        <td><div class="editable" contenteditable="true">/news/milestone</div></td>
-                        <td>
-                            <div class="blog-thumbnail">Thumb 2</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Our journey to success</div></td>
-                        <td><div class="editable" contenteditable="true">Learn about the key moments that shaped our company's growth.</div></td>
-                        <td><div class="editable" contenteditable="true">View Story</div></td>
-                        <td><div class="editable" contenteditable="true">/blog/our-journey</div></td>
-                    </tr>
-                    
-                    <!-- Row 4 -->
-                    <tr>
-                        <td class="row-header">4</td>
-                        <td>
-                            <div class="slide-image">Image 3</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Industry conference announced</div></td>
-                        <td><div class="editable" contenteditable="true">/news/conference</div></td>
-                        <td>
-                            <div class="blog-thumbnail">Thumb 3</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Preparing for the conference</div></td>
-                        <td><div class="editable" contenteditable="true">Tips and tricks to make the most of your conference experience.</div></td>
-                        <td><div class="editable" contenteditable="true">Learn More</div></td>
-                        <td><div class="editable" contenteditable="true">/blog/conference-tips</div></td>
-                    </tr>
-                    
-                    <!-- Row 5 -->
-                    <tr>
-                        <td class="row-header">5</td>
-                        <td>
-                            <div class="slide-image">Image 4</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Partnership with TechCorp</div></td>
-                        <td><div class="editable" contenteditable="true">/news/partnership</div></td>
-                        <td>
-                            <div class="blog-thumbnail">Thumb 4</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Collaboration benefits</div></td>
-                        <td><div class="editable" contenteditable="true">How our new partnership will create value for customers.</div></td>
-                        <td><div class="editable" contenteditable="true">Discover</div></td>
-                        <td><div class="editable" contenteditable="true">/blog/collaboration</div></td>
-                    </tr>
-                    
-                    <!-- Row 6 -->
-                    <tr>
-                        <td class="row-header">6</td>
-                        <td>
-                            <div class="slide-image">Image 5</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Quarterly results released</div></td>
-                        <td><div class="editable" contenteditable="true">/news/results</div></td>
-                        <td>
-                            <div class="blog-thumbnail">Thumb 5</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Market analysis</div></td>
-                        <td><div class="editable" contenteditable="true">Our experts break down what these results mean for the industry.</div></td>
-                        <td><div class="editable" contenteditable="true">Analyze</div></td>
-                        <td><div class="editable" contenteditable="true">/blog/market-analysis</div></td>
-                    </tr>
-                    
-                    <!-- Row 7 -->
-                    <tr>
-                        <td class="row-header">7</td>
-                        <td>
-                            <div class="slide-image">Image 6</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">New office opening</div></td>
-                        <td><div class="editable" contenteditable="true">/news/new-office</div></td>
-                        <td>
-                            <div class="blog-thumbnail">Thumb 6</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Office tour</div></td>
-                        <td><div class="editable" contenteditable="true">Take a virtual tour of our new state-of-the-art facilities.</div></td>
-                        <td><div class="editable" contenteditable="true">Take Tour</div></td>
-                        <td><div class="editable" contenteditable="true">/blog/office-tour</div></td>
-                    </tr>
-                    
-                    <!-- Row 8 -->
-                    <tr>
-                        <td class="row-header">8</td>
-                        <td>
-                            <div class="slide-image">Image 7</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Employee recognition</div></td>
-                        <td><div class="editable" contenteditable="true">/news/recognition</div></td>
-                        <td>
-                            <div class="blog-thumbnail">Thumb 7</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Employee spotlight</div></td>
-                        <td><div class="editable" contenteditable="true">Meet the team members who went above and beyond this quarter.</div></td>
-                        <td><div class="editable" contenteditable="true">Meet Team</div></td>
-                        <td><div class="editable" contenteditable="true">/blog/employee-spotlight</div></td>
-                    </tr>
-                    
-                    <!-- Row 9 -->
-                    <tr>
-                        <td class="row-header">9</td>
-                        <td>
-                            <div class="slide-image">Image 8</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Holiday schedule</div></td>
-                        <td><div class="editable" contenteditable="true">/news/holidays</div></td>
-                        <td>
-                            <div class="blog-thumbnail">Thumb 8</div>
-                            <div class="image-controls">
-                                <input type="text" class="image-url-input" placeholder="Image URL or upload">
-                                <button class="upload-btn sheet-button" onclick="openFileDialog(this)">Upload</button>
-                            </div>
-                        </td>
-                        <td><div class="editable" contenteditable="true">Year-end wrap up</div></td>
-                        <td><div class="editable" contenteditable="true">A look back at our accomplishments and what's coming next year.</div></td>
-                        <td><div class="editable" contenteditable="true">Read Wrap-up</div></td>
-                        <td><div class="editable" contenteditable="true">/blog/year-end</div></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <button class="save-btn" onclick="saveData()">Save All Data</button>
-        <div id="statusMessage" class="status-message"></div>
-    </div>
-
-    <!-- Footer Section -->
-    <footer class="footer-section">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <img src="Image/NEW LOGO.png" alt="Logo">
-            </div>
-            <div class="footer-links">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Activities</a></li>
-                    <li><a href="#">Gallery</a></li>
-                    <li><a href="#">Login</a></li>
-                </ul>
-            </div>
-            <div class="footer-contact">
-                <h3>Contact Us</h3>
-                <p><i class="fas fa-envelope"></i> info@example.com</p>
-                <p><i class="fas fa-phone"></i> +123 456 7890</p>
-            </div>
-            <div class="footer-social">
-                <h3>Follow Us</h3>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                </div>
+        <div class="login-container">
+            <!-- Standardized logo with fixed width -->
+            <img src="Image/logo.png" alt="College Logo" class="login-logo">
+            
+            <h1 class="login-title">Login Portal</h1>
+            <p>Please select your login method</p>
+            
+            <div class="login-buttons">
+                <a href="https://stjosephs.linways.com/" class="login-btn linways-btn" target="_blank">
+                    <i class="fas fa-user-graduate"></i> Linways Login
+                </a>
+                <a href="admin.html" class="login-btn admin-btn">
+                    <i class="fas fa-user-shield"></i> Admin Login
+                </a>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Modern Website Template. All rights reserved.</p>
-        </div>
-    </footer>
+    </section>
 
     <script>
-        // Google Sheets configuration
-        const SPREADSHEET_ID = '135F7ofjwaD2pUEYxdj9WfGyhWYWJiALZTZ0ftKob34k';
-        const API_KEY = 'AIzaSyCivBCcZjlTguFQoznSyIF0lsnuuFLd0Nk';
-        const SHEET_NAME = 'Sheet1';
-        
-        // Status message element
-        const statusMessage = document.getElementById('statusMessage');
-        
-        // Save data to Google Sheets
-        async function saveData() {
-            statusMessage.style.display = 'none';
-            statusMessage.textContent = '';
-            statusMessage.className = 'status-message';
+        // Preloader script
+        window.addEventListener('load', function() {
+            const preloader = document.querySelector('.preloader');
+            preloader.classList.add('loaded');
             
-            try {
-                // Show loading
-                document.getElementById('loading').style.display = 'flex';
-                document.getElementById('loading').textContent = 'Saving to Google Sheets...';
-                
-                // Prepare the data
-                const data = prepareSheetData();
-                
-                // First clear the existing data (optional, you might want to append instead)
-                await clearSheet();
-                
-                // Write the new data
-                const response = await writeToSheet(data);
-                
-                if (response.status === 200) {
-                    showStatus('Data successfully saved to Google Sheets!', 'success');
-                } else {
-                    showStatus('Error saving to Google Sheets: ' + (response.message || 'Unknown error'), 'error');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showStatus('Error saving to Google Sheets: ' + error.message, 'error');
-            } finally {
-                document.getElementById('loading').style.display = 'none';
-            }
-        }
-
-        // Prepare data in the format for Google Sheets
-        function prepareSheetData() {
-            const tableData = [];
-            const rows = document.querySelectorAll('tbody tr');
-            
-            // Skip the first row (header row)
-            for (let i = 2; i < rows.length; i++) {
-                const row = rows[i];
-                const rowData = [];
-                const cells = row.querySelectorAll('td');
-                
-                // Get slide image URL (only the URL, no preview)
-                const slideUrl = cells[1].querySelector('.image-url-input').value;
-                rowData.push(slideUrl);
-                
-                // Get latest news text
-                rowData.push(cells[2].querySelector('.editable').textContent);
-                
-                // Get news link
-                rowData.push(cells[3].querySelector('.editable').textContent);
-                
-                // Get blog thumbnail URL (only the URL, no preview)
-                const thumbUrl = cells[4].querySelector('.image-url-input').value;
-                rowData.push(thumbUrl);
-                
-                // Get blog heading
-                rowData.push(cells[5].querySelector('.editable').textContent);
-                
-                // Get blog description
-                rowData.push(cells[6].querySelector('.editable').textContent);
-                
-                // Get button name (text only, no button element)
-                rowData.push(cells[7].querySelector('.editable').textContent.trim());
-                
-                // Get button link
-                rowData.push(cells[8].querySelector('.editable').textContent);
-                
-                tableData.push(rowData);
-            }
-            
-            return tableData;
-        }
-
-        // Function to write data to Google Sheets
-        async function writeToSheet(data) {
-            const range = `${SHEET_NAME}!A2`; // Start from row 2 to preserve headers
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${range}?valueInputOption=USER_ENTERED&key=${API_KEY}`;
-            
-            const body = {
-                values: data
-            };
-            
-            const response = await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(body)
-            });
-            
-            return await response.json();
-        }
-
-        // Function to clear the sheet (optional)
-        async function clearSheet() {
-            const range = `${SHEET_NAME}!A2:Z1000`; // Clear from row 2 to preserve headers
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${range}?key=${API_KEY}`;
-            
-            const response = await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    range: range,
-                    values: []
-                })
-            });
-            
-            return await response.json();
-        }
-
-        // Function to show status messages
-        function showStatus(message, type) {
-            statusMessage.textContent = message;
-            statusMessage.className = 'status-message ' + type;
-            statusMessage.style.display = 'block';
-        }
-
-        // Hamburger Menu functionality
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
-        const activitiesLink = document.querySelector('.nav-links .activities');
-        const body = document.body;
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-            body.classList.toggle('menu-open');
-        });
-
-        // Toggle Activities Submenu in Mobile View
-        activitiesLink.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                e.preventDefault();
-                activitiesLink.classList.toggle('active');
-            }
-        });
-
-        // ImgBB API key
-        const IMGBB_API_KEY = 'ab7046d1bd0dba5881b9e2ff84be6a6c';
-        let currentImageCell = null;
-        let currentUrlInput = null;
-        
-        // Open file dialog when upload button is clicked
-        function openFileDialog(button) {
-            currentImageCell = button.closest('td');
-            currentUrlInput = currentImageCell.querySelector('.image-url-input');
-            document.getElementById('fileInput').click();
-        }
-        
-        // Handle file selection and upload to ImgBB
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            if (e.target.files.length > 0 && currentImageCell) {
-                const file = e.target.files[0];
-                const imageDiv = currentImageCell.querySelector('.slide-image, .blog-thumbnail');
-                
-                // Show loading indicator
-                document.getElementById('loading').style.display = 'flex';
-                document.getElementById('loading').textContent = 'Uploading image...';
-                
-                // Create form data
-                const formData = new FormData();
-                formData.append('image', file);
-                
-                // Upload to ImgBB
-                fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Update the image preview
-                        imageDiv.style.backgroundImage = `url(${data.data.url})`;
-                        imageDiv.textContent = '';
-                        
-                        // Update the URL input with the returned URL
-                        currentUrlInput.value = data.data.url;
-                    } else {
-                        alert('Image upload failed: ' + (data.error?.message || 'Unknown error'));
-                    }
-                })
-                .catch(error => {
-                    alert('Error uploading image: ' + error.message);
-                })
-                .finally(() => {
-                    document.getElementById('loading').style.display = 'none';
-                });
-            }
-        });
-        
-        // Handle URL input changes
-        document.querySelectorAll('.image-url-input').forEach(input => {
-            input.addEventListener('change', function() {
-                if (this.value) {
-                    const imageDiv = this.closest('td').querySelector('.slide-image, .blog-thumbnail');
-                    imageDiv.style.backgroundImage = `url(${this.value})`;
-                    imageDiv.textContent = '';
-                }
-            });
+            // Remove preloader from DOM after animation completes
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 500);
         });
     </script>
 </body>
