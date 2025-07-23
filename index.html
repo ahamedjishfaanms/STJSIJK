@@ -9,6 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Preloader -->
+<div class="preloader">
+  <div class="preloader-content">
+    <img src="image/preloader.gif" alt="Loading...">
+    <div class="loading-text">Loading...</div>
+  </div>
+</div>
 <!-- Top Section -->
 <div class="top-section">
   <div class="contact-info">
@@ -370,38 +377,78 @@
       </div>
     </div>
   </div>
-  <!-- Add this after the Latest Events and Updates Section -->
+  
 
-<!-- Testimonial Section -->
+<!-- In your index.html file, replace the testimonial section with this: -->
 <section class="testimonial-section">
-  <div class="testimonial-content">
-    <h2>What Our Students Say</h2>
-    <div class="testimonial-slider">
-      <div class="testimonial-item">
-        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."</p>
-        <div class="testimonial-author">
-          <img src="Image/principal.webp" alt="Author 1">
-          <span>John Doe</span>
-        </div>
-      </div>
-      <div class="testimonial-item">
-        <p>"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."</p>
-        <div class="testimonial-author">
-          <img src="Image/LOGONEW.svg" alt="Author 2">
-          <span>Jane Smith</span>
-        </div>
-      </div>
-      <div class="testimonial-item">
-        <p>"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."</p>
-        <div class="testimonial-author">
-          <img src="https://via.placeholder.com/50" alt="Author 3">
-          <span>Alice Johnson</span>
-        </div>
-      </div>
+  <div class="testimonial-container">
+    <div class="section-header">
+      <h2>What Our Students Say</h2>
+      <p class="section-subtitle">Hear from our community</p>
     </div>
-    <div class="slider-controls">
-      <button class="prev-testimonial">&#10094;</button>
-      <button class="next-testimonial">&#10095;</button>
+    
+    <div class="testimonial-slider">
+      <button class="slider-arrow prev-arrow">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      
+      <div class="testimonial-track">
+        <!-- Testimonial 1 -->
+        <div class="testimonial-card active">
+          <div class="testimonial-content">
+            <div class="author-image">
+              <img src="Image/principal.webp" alt="Student 1">
+            </div>
+            <div class="testimonial-text">
+              <p>"The faculty and facilities at St. Joseph's have been instrumental in shaping my career. The practical approach to learning gave me the confidence to excel in my field."</p>
+              <div class="author-info">
+                <h4>John Doe</h4>
+                <p>BCA Graduate, 2022</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Testimonial 2 -->
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <div class="author-image">
+              <img src="Image/principal.webp" alt="Student 2">
+            </div>
+            <div class="testimonial-text">
+              <p>"The industry-oriented curriculum and hands-on projects prepared me perfectly for my current role at a leading tech company. I'm grateful for the strong foundation I received."</p>
+              <div class="author-info">
+                <h4>Jane Smith</h4>
+                <p>BCA Graduate, 2021</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Testimonial 3 -->
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <div class="author-image">
+              <img src="Image/principal.webp" alt="Student 3">
+            </div>
+            <div class="testimonial-text">
+              <p>"The supportive learning environment and dedicated faculty helped me discover my potential. The campus placements were excellent, and I got placed in my dream company."</p>
+              <div class="author-info">
+                <h4>Alice Johnson</h4>
+                <p>BCA Graduate, 2020</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="slider-arrow next-arrow">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+    
+    <div class="slider-dots">
+      <!-- Dots will be added dynamically by JavaScript -->
     </div>
   </div>
 </section>
