@@ -10,7 +10,42 @@ a {
   text-decoration: none;
   color: inherit;
 }
+/* Preloader Styles */
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #09122C;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+}
 
+.preloader-content {
+  text-align: center;
+}
+
+.preloader img {
+  width: 100px;
+  height: 100px;
+}
+
+.loading-text {
+  color: white;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+/* Hide preloader when loaded */
+.preloader.loaded {
+  opacity: 0;
+  pointer-events: none;
+}
 /* Top Section */
 .top-section {
   background-color: #BE3144;
@@ -1214,138 +1249,165 @@ a {
   line-height: 1.6;
   margin-bottom: 15px;
 }
-/* Testimonial Section */
+/* Add this to your styles.css file */
 .testimonial-section {
-  padding: 80px 20px; /* Increased padding for more length */
-  background: linear-gradient(135deg, #BE3144 0%, #E17564 100%);
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #C33A48 0%, #DD6E61 100%);
   position: relative;
   overflow: hidden;
+  color: white;
   text-align: center;
 }
 
-.testimonial-section::before {
-  content: '';
-  position: absolute;
-  top: -50px;
-  left: -50px;
-  width: 200px;
-  height: 200px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  transform: rotate(45deg);
-  z-index: 1;
-}
-
-.testimonial-section::after {
-  content: '';
-  position: absolute;
-  bottom: -50px;
-  right: -50px;
-  width: 150px;
-  height: 150px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  transform: rotate(45deg);
-  z-index: 1;
-}
-
-.testimonial-content {
-  max-width: 1200px;
+.testimonial-container {
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 20px;
   position: relative;
-  z-index: 2;
-}
-
-.testimonial-content h2 {
-  font-size: 2.5rem;
-  color: white;
-  margin-bottom: 30px;
 }
 
 .testimonial-slider {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  overflow: hidden;
   position: relative;
+  margin: 40px auto;
+  max-width: 1336px;
 }
 
-.testimonial-item {
-  flex: 0 0 80%;
-  max-width: 800px;
-  padding: 30px; /* Increased padding for more content space */
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.testimonial-track {
+  display: flex;
+  transition: transform 0.5s ease;
 }
 
-.testimonial-item p {
-  font-size: 1.2rem; /* Increased font size for better readability */
-  color: #333;
-  line-height: 1.8; /* Increased line height for better spacing */
-  margin-bottom: 20px; /* Increased margin for better spacing */
+.testimonial-card {
+  flex: 0 0 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
+  display: none;
 }
 
-.testimonial-author {
+.testimonial-card.active {
+  display: block;
+}
+
+.testimonial-content {
+  background: white;
+  border-radius: 54px;
+  padding: 40px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  gap: 30px;
+  text-align: left;
+  height: 251px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.testimonial-author img {
-  width: 60px; /* Increased size for author image */
-  height: 60px;
+.author-image {
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 5px solid rgba(195, 58, 72, 0.2);
+}
+
+.author-image img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
-.testimonial-author span {
-  font-size: 1.1rem; /* Increased font size for author name */
-  color: #09122C;
-  font-weight: 600;
+.testimonial-text {
+  flex: 1;
+  color: #333;
 }
 
-.slider-controls {
-  margin-top: 30px; /* Increased margin for better spacing */
+.testimonial-text p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-style: italic;
 }
 
-.slider-controls button {
-  background: #BE3144;
-  color: white;
+.author-info h4 {
+  font-size: 1.3rem;
+  color: #C33A48;
+  margin-bottom: 5px;
+}
+
+.author-info p {
+  font-size: 1rem;
+  color: #666;
+}
+
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   cursor: pointer;
-  transition: background 0.3s ease;
+  font-size: 1.2rem;
+  color: #C33A48;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
-.slider-controls button:hover {
-  background: #E17564;
+.slider-arrow:hover {
+  background: #C33A48;
+  color: white;
 }
 
+.prev-arrow {
+  left: 20px;
+}
 
+.next-arrow {
+  right: 20px;
+}
 
-/* Responsive Design for Testimonial Section */
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.slider-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slider-dot.active {
+  background: white;
+  transform: scale(1.2);
+}
+
 @media (max-width: 768px) {
-  .testimonial-item {
-    flex: 0 0 90%;
-    padding: 20px; /* Adjusted padding for mobile */
+  .testimonial-content {
+    flex-direction: column;
+    height: auto;
+    padding: 30px;
+    text-align: center;
   }
-
-  .testimonial-content h2 {
-    font-size: 2rem;
+  
+  .author-image {
+    margin-bottom: 20px;
   }
-
-  .testimonial-item p {
-    font-size: 1rem; /* Adjusted font size for mobile */
+  
+  .testimonial-text p {
+    font-size: 1rem;
+  }
+  
+  .author-info h4 {
+    font-size: 1.1rem;
   }
 }
-
 /* Contact Form Section */
 .contact-form-section {
   padding: 80px 20px; /* Increased padding for more length */
@@ -1523,3 +1585,483 @@ a {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Faculty Section Styles */
+.faculties-section {
+    padding: 80px 20px;
+    background-color: #f8f9fa;
+    position: relative;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: #09122C;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: #BE3144;
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #6c757d;
+    font-weight: 400;
+}
+
+/* Department Filter */
+.department-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background-color: #ddd;
+}
+
+.filter-btn.active {
+    background-color: #BE3144;
+    color: white;
+}
+
+/* Search Box */
+.search-box {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto 30px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 20px;
+    padding-left: 45px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+    border-color: #BE3144;
+    box-shadow: 0 0 0 3px rgba(190, 49, 68, 0.2);
+}
+
+.search-box i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+}
+
+/* Faculty Grid */
+.faculties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.faculty-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.faculty-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.faculty-image {
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.faculty-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.faculty-card:hover .faculty-image img {
+    transform: scale(1.05);
+}
+
+.default-avatar {
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-size: 5rem;
+}
+
+.faculty-info {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.faculty-info h2 {
+    font-size: 1.5rem;
+    color: #09122C;
+    margin-bottom: 5px;
+}
+
+.faculty-info .department {
+    font-size: 0.9rem;
+    color: #BE3144;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.faculty-info .position {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+
+.faculty-social {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.faculty-social a {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #09122C;
+    transition: all 0.3s ease;
+}
+
+.faculty-social a:hover {
+    background-color: #BE3144;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.profile-btn {
+    margin-top: auto;
+    padding: 10px 20px;
+    background-color: #09122C;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+}
+
+.profile-btn:hover {
+    background-color: #BE3144;
+}
+
+/* Load More Button */
+.load-more {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.load-more button {
+    padding: 12px 30px;
+    background-color: #09122C;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.load-more button:hover {
+    background-color: #BE3144;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(190, 49, 68, 0.3);
+}
+
+/* Faculty Modal */
+.faculty-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 50px auto;
+    max-width: 800px;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    color: #09122C;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #BE3144;
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-image {
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+
+.modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-details {
+    padding: 30px;
+}
+
+.modal-header {
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    font-size: 2rem;
+    color: #09122C;
+    margin-bottom: 5px;
+}
+
+.modal-header .department {
+    font-size: 1rem;
+    color: #BE3144;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.modal-header .position {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+
+.modal-social {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-social a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #09122C;
+    transition: all 0.3s ease;
+}
+
+.modal-social a:hover {
+    background-color: #BE3144;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.modal-bio h3 {
+    font-size: 1.5rem;
+    color: #09122C;
+    margin-bottom: 15px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.modal-bio h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: #BE3144;
+}
+
+.modal-bio p {
+    font-size: 1rem;
+    color: #495057;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.modal-qualifications, 
+.modal-research, 
+.modal-contact {
+    margin-top: 20px;
+}
+
+.modal-qualifications h4, 
+.modal-research h4, 
+.modal-contact h4 {
+    font-size: 1.2rem;
+    color: #09122C;
+    margin-bottom: 10px;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.modal-qualifications h4::after, 
+.modal-research h4::after, 
+.modal-contact h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background-color: #BE3144;
+}
+
+.modal-qualifications ul, 
+.modal-research ul {
+    padding-left: 20px;
+}
+
+.modal-qualifications li, 
+.modal-research li {
+    margin-bottom: 8px;
+    color: #495057;
+}
+
+.modal-contact p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: #495057;
+}
+
+.modal-contact i {
+    color: #BE3144;
+    width: 20px;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .faculties-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    .modal-content {
+        margin: 20px auto;
+        width: 95%;
+    }
+    
+    .modal-body {
+        flex-direction: column;
+    }
+    
+    .modal-image {
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+    }
+    
+    .department-filter {
+        gap: 8px;
+    }
+    
+    .filter-btn {
+        padding: 6px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .faculties-grid {
+        grid-template-columns: 1fr;
+    }
+}
