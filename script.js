@@ -16,6 +16,25 @@ async function fetchData() {
   }
 }
 
+// Preloader functionality
+function setupPreloader() {
+  const preloader = document.querySelector('.preloader');
+  
+  // Hide preloader when everything is loaded or after max 5 seconds
+  const hidePreloader = () => {
+    preloader.classList.add('loaded');
+    setTimeout(() => {
+      preloader.style.display = 'none';
+    }, 500); // Match this with the CSS transition time
+  };
+
+  // Hide when page is fully loaded
+  window.addEventListener('load', hidePreloader);
+
+  // Maximum 5 seconds fallback
+  setTimeout(hidePreloader, 5000);
+}
+
 // Populate Slideshow
 async function populateSlideshow() {
   const data = await fetchData();
@@ -232,54 +251,72 @@ function setupMobileNav() {
   });
 }
 
-// Testimonial Slider
+// Testimonial Slider - Modern Implementation
 function setupTestimonialSlider() {
-  const testimonialItems = document.querySelectorAll('.testimonial-item');
-  if (!testimonialItems.length) return;
-
-  let testimonialIndex = 0;
-  let testimonialInterval;
-
-  function showTestimonial(index) {
-    testimonialItems.forEach((item, i) => {
-      item.style.display = i === index ? 'block' : 'none';
+  const track = document.querySelector('.testimonial-track');
+  const cards = document.querySelectorAll('.testimonial-card');
+  const dotsContainer = document.querySelector('.slider-dots');
+  const prevBtn = document.querySelector('.slider-prev');
+  const nextBtn = document.querySelector('.slider-next');
+  
+  if (!track || !cards.length) return;
+  
+  let currentIndex = 0;
+  const cardCount = cards.length;
+  
+  // Create dots
+  cards.forEach((_, index) => {
+    const dot = document.createElement('div');
+    dot.classList.add('slider-dot');
+    if (index === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goToSlide(index));
+    dotsContainer.appendChild(dot);
+  });
+  
+  const dots = document.querySelectorAll('.slider-dot');
+  
+  function updateSlider() {
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    
+    // Update dots
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentIndex);
     });
   }
-
-  function startTestimonialSlider() {
-    testimonialInterval = setInterval(() => {
-      testimonialIndex = (testimonialIndex + 1) % testimonialItems.length;
-      showTestimonial(testimonialIndex);
-    }, 5000);
+  
+  function goToSlide(index) {
+    currentIndex = index;
+    updateSlider();
   }
-
-  function stopTestimonialSlider() {
-    clearInterval(testimonialInterval);
+  
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % cardCount;
+    updateSlider();
   }
-
-  // Manual Navigation
-  const prevBtn = document.querySelector('.prev-testimonial');
-  const nextBtn = document.querySelector('.next-testimonial');
-
-  if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
-      stopTestimonialSlider();
-      testimonialIndex = (testimonialIndex - 1 + testimonialItems.length) % testimonialItems.length;
-      showTestimonial(testimonialIndex);
-    });
+  
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + cardCount) % cardCount;
+    updateSlider();
   }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      stopTestimonialSlider();
-      testimonialIndex = (testimonialIndex + 1) % testimonialItems.length;
-      showTestimonial(testimonialIndex);
-    });
-  }
-
+  
+  // Event listeners
+  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+  
+  // Auto-advance
+  let slideInterval = setInterval(nextSlide, 5000);
+  
+  // Pause on hover
+  track.addEventListener('mouseenter', () => {
+    clearInterval(slideInterval);
+  });
+  
+  track.addEventListener('mouseleave', () => {
+    slideInterval = setInterval(nextSlide, 5000);
+  });
+  
   // Initialize
-  showTestimonial(testimonialIndex);
-  startTestimonialSlider();
+  updateSlider();
 }
 
 // Contact Form Handling
@@ -579,6 +616,76 @@ function initParticles() {
   }
 }
 
+// Update your script.js with this testimonial slider code
+function setupTestimonialSlider() {
+  const track = document.querySelector('.testimonial-track');
+  const cards = document.querySelectorAll('.testimonial-card');
+  const dotsContainer = document.querySelector('.slider-dots');
+  const prevBtn = document.querySelector('.prev-arrow');
+  const nextBtn = document.querySelector('.next-arrow');
+  
+  if (!track || !cards.length) return;
+  
+  let currentIndex = 0;
+  const cardCount = cards.length;
+  
+  // Create dots
+  cards.forEach((_, index) => {
+    const dot = document.createElement('div');
+    dot.classList.add('slider-dot');
+    if (index === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goToSlide(index));
+    dotsContainer.appendChild(dot);
+  });
+  
+  const dots = document.querySelectorAll('.slider-dot');
+  
+  function updateSlider() {
+    cards.forEach((card, index) => {
+      card.classList.toggle('active', index === currentIndex);
+    });
+    
+    // Update dots
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentIndex);
+    });
+  }
+  
+  function goToSlide(index) {
+    currentIndex = index;
+    updateSlider();
+  }
+  
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % cardCount;
+    updateSlider();
+  }
+  
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + cardCount) % cardCount;
+    updateSlider();
+  }
+  
+  // Event listeners
+  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+  
+  // Auto-advance
+  let slideInterval = setInterval(nextSlide, 5000);
+  
+  // Pause on hover
+  track.addEventListener('mouseenter', () => {
+    clearInterval(slideInterval);
+  });
+  
+  track.addEventListener('mouseleave', () => {
+    slideInterval = setInterval(nextSlide, 5000);
+  });
+  
+  // Initialize
+  updateSlider();
+}
+
 // Facilities Horizontal Scroller
 function setupFacilitiesScroller() {
   const facilitiesTrack = document.querySelector('.facilities-track');
@@ -627,13 +734,17 @@ function setupSmoothScrolling() {
 
 // Initialize all components
 function initializeAll() {
+  // Setup preloader first
+  setupPreloader();
+  
+  // Then setup all other components
   setupMobileNav();
   setupTestimonialSlider();
   setupContactForm();
   setupAboutSlider();
   setupAnimatedCounters();
   setupVideoControls();
-  setupFacilitiesScroller(); // Add this line
+  setupFacilitiesScroller();
   setupSmoothScrolling();
   initParticles();
   
